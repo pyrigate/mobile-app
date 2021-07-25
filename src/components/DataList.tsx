@@ -1,0 +1,58 @@
+import React from 'react'
+import {
+  FlatList,
+  FlatListProps,
+  ListRenderItem,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { List } from 'react-native-paper'
+
+import { ErrorScreen } from '../components/Error'
+import { Loader } from '../components/Loader'
+import { useSubscribers } from '../hooks/Subscribers'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 10,
+  },
+})
+
+type HookType<T> = {
+  data: T[]
+  loading: boolean
+  errored: Error | number | null
+}
+
+type DataListProps<T> = {
+  hook: () => HookType<T>
+  formatError: (error: Error | number | null) => string
+  renderItem: FlatListProps<T>['renderItem']
+  keyExtractor: FlatListProps<T>['keyExtractor']
+}
+
+export function DataList<T>(props: DataListProps<T>) {
+  const { hook, formatError, renderItem, keyExtractor } = props
+  const { data, loading, errored } = hook()
+
+  if (loading) {
+    return <Loader />
+  }
+
+  if (errored) {
+    return <ErrorScreen message={formatError(errored)} />
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+      />
+    </SafeAreaView>
+  )
+}
