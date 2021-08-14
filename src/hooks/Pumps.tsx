@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useEndpoint } from './Endpoint'
+import { useEndpoint, createEndpointContext } from './Endpoint'
 import type { EndpointData } from './Endpoint'
 
 export type Pump = {
@@ -9,11 +9,7 @@ export type Pump = {
   active: boolean
 }
 
-const PumpsContext = React.createContext<EndpointData<Pump>>({
-  data: [],
-  loading: false,
-  errored: null,
-})
+const PumpsContext = createEndpointContext<Pump>()
 
 const mockPumpResponse = async () => {
   return [

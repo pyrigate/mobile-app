@@ -12,6 +12,20 @@ export type EndpointData<T> = {
 // Convenient name for the type returned by endpoint hooks
 export type HookType<T> = EndpointData<T>
 
+/**
+ * Create an endpoint context for context providers with default values
+ *
+ * @template T - Type of the context
+ */
+export const createEndpointContext = <T>() => React.createContext<EndpointData<T>>(
+  {
+    data: [],
+    loading: false,
+    errored: null,
+    fetch: async () => {}
+  }
+)
+
 async function delayedMockResponse<T>(
   mockResponse: () => Promise<T[]>,
   delay?: number,

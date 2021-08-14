@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useEndpoint } from './Endpoint'
+import { useEndpoint, createEndpointContext } from './Endpoint'
 import type { EndpointData } from './Endpoint'
 
 export type Sensor = {
@@ -9,11 +9,7 @@ export type Sensor = {
   active: boolean
 }
 
-const SensorsContext = React.createContext<EndpointData<Sensor>>({
-  data: [],
-  loading: false,
-  errored: null,
-})
+const SensorsContext = createEndpointContext<Sensor>()
 
 const mockSensorResponse = async () => {
   return [

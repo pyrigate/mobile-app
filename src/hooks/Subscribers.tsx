@@ -1,17 +1,13 @@
 import React from 'react'
 
-import { useEndpoint } from './Endpoint'
+import { useEndpoint, createEndpointContext } from './Endpoint'
 import type { EndpointData } from './Endpoint'
 
 export type Subscriber = {
   mail: string
 }
 
-const SubscribersContext = React.createContext<EndpointData<Subscriber>>({
-  data: [],
-  loading: false,
-  errored: null,
-})
+const SubscribersContext = createEndpointContext<Subscriber>()
 
 const mockSubscribersResponse = async () => {
   return [

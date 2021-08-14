@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useEndpoint } from './Endpoint'
+import { useEndpoint, createEndpointContext } from './Endpoint'
 import type { EndpointData } from './Endpoint'
 
 export type Notification = {
@@ -13,11 +13,7 @@ type WaterJobNotification = {
   config: string
 } & Notification
 
-const NotificationsContext = React.createContext<EndpointData<Notification>>({
-  data: [],
-  loading: false,
-  errored: null,
-})
+const NotificationsContext = createEndpointContext<Notification>()
 
 const mockNotificationResponse = async () => {
   return [
