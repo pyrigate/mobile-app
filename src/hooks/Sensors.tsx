@@ -15,12 +15,12 @@ const mockSensorResponse = async () => {
   return [
     {
       name: 'Sensor 1',
-      gpioPin: 1,
+      gpioPin: Math.round(Math.random() * 5),
       active: true,
     },
     {
       name: 'Sensor 2',
-      gpioPin: 4,
+      gpioPin: Math.round(Math.random() * 5),
       active: false,
     },
   ]

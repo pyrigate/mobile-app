@@ -15,12 +15,12 @@ const mockPumpResponse = async () => {
   return [
     {
       name: 'Pump 1',
-      gpioPin: 1,
+      gpioPin: Math.round(Math.random() * 5),
       active: true,
     },
     {
       name: 'Pump 2',
-      gpioPin: 4,
+      gpioPin: Math.round(Math.random() * 5),
       active: false,
     },
   ]
