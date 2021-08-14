@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 export const LoginScreen = () => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [passwordHidden, setPasswordHidden] = React.useState(true)
   const { login } = useAuth()
 
   return (
@@ -37,8 +38,9 @@ export const LoginScreen = () => {
       <View style={styles.textInput}>
         <TextInput
           label="Password"
-          secureTextEntry
-          right={<TextInput.Icon name="eye" />}
+          secureTextEntry={passwordHidden}
+          autoCompleteType="off"
+          right={<TextInput.Icon name="eye" onPress={() => setPasswordHidden(prev => !prev)} />}
           value={password}
           onChangeText={setPassword}
         />
