@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { useSettings } from './Settings'
 
@@ -6,6 +6,7 @@ export type EndpointData<T> = {
   data: T[]
   loading: boolean
   errored: Error | number | null
+  fetch: () => Promise<void>
 }
 
 async function delayedMockResponse<T>(
@@ -28,37 +29,49 @@ export const useEndpoint = <T>(
   const [errored, setErrored] = useState<Error | number | null>(null)
   const [data, setData] = useState<T[]>([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
+  const mounted = useRef(true)
 
-      if (mockResponses) {
+  const fetchData = async () => {
+    setLoading(true)
+
+    if (mockResponses) {
+      if (mounted.current) {
         setData(await delayedMockResponse<T>(mockResponse))
         setLoading(false)
-        return
       }
 
-      try {
-        const response = await fetch(`${serverUrl}/${endpoint}`)
-
-        if (response.ok) {
-          setData(await response.json())
-        } else {
-          setErrored(response.status)
-        }
-      } catch (error) {
-        setErrored(error)
-      } finally {
-        setLoading(false)
-      }
+      return
     }
 
+    try {
+      const response = await fetch(`${serverUrl}/${endpoint}`)
+
+      if (response.ok) {
+        if (mounted.current) {
+          setData(await response.json())
+        }
+      } else {
+        if (mounted.current) {
+          setErrored(response.status)
+        }
+      }
+    } catch (error) {
+      setErrored(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchData()
-  }, [serverUrl])
+
+    return () => { mounted.current = false }
+  }, [mockResponses, serverUrl])
 
   return {
     data,
     loading,
     errored,
+    fetch: fetchData,
   }
 }
