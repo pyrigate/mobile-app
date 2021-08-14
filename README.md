@@ -7,6 +7,6 @@ Ideally, a pyrigate server can be run on the Raspberry Pi which the mobile app c
 server has not yet been developed.
 
 <div align="center">
-  <img width="50%" align="left" src="./screenshot-notifications.png" />
-  <img width="50%" src="./screenshot-drawer.png" />
+  <img width="40%" align="left" src="./screenshot-notifications.png" />
+  <img width="40%" src="./screenshot-drawer.png" />
 </div>
