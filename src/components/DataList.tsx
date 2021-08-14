@@ -12,7 +12,7 @@ import { List } from 'react-native-paper'
 
 import { ErrorScreen } from '../components/Error'
 import { Loader } from '../components/Loader'
-import { useSubscribers } from '../hooks/Subscribers'
+import { HookType } from '../hooks/Endpoint'
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +20,6 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 })
-
-type HookType<T> = {
-  data: T[]
-  loading: boolean
-  errored: Error | number | null
-}
 
 type DataListProps<T> = {
   hook: () => HookType<T>

@@ -9,6 +9,9 @@ export type EndpointData<T> = {
   fetch: () => Promise<void>
 }
 
+// Convenient name for the type returned by endpoint hooks
+export type HookType<T> = EndpointData<T>
+
 async function delayedMockResponse<T>(
   mockResponse: () => Promise<T[]>,
   delay?: number,
